@@ -1,0 +1,40 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "wat",
+      "camelcase": "WAT",
+      "title": "WebAssembly Text",
+      "scope": "source.wat",
+      "file-types": [
+        "wat",
+        "wast"
+      ],
+      "injection-regex": "^wat$",
+      "class-name": "TreeSitterWat"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "WAT grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Mikhail Katychev",
+        "email": "mkatych@gmail.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/mkatychev/tree-sitter-wat"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
