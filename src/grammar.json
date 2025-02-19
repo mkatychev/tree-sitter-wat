@@ -61,6 +61,74 @@
         }
       ]
     },
+    "numtype": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "i32"
+        },
+        {
+          "type": "STRING",
+          "value": "i64"
+        },
+        {
+          "type": "STRING",
+          "value": "f32"
+        },
+        {
+          "type": "STRING",
+          "value": "f64"
+        }
+      ]
+    },
+    "reftype": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "funcref"
+        },
+        {
+          "type": "STRING",
+          "value": "externref"
+        }
+      ]
+    },
+    "heaptype": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "func"
+        },
+        {
+          "type": "STRING",
+          "value": "extern"
+        }
+      ]
+    },
+    "vectype": {
+      "type": "STRING",
+      "value": "v128"
+    },
+    "valtype": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "numtype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "vectype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
+        }
+      ]
+    },
     "functype": {
       "type": "SEQ",
       "members": [
@@ -70,11 +138,101 @@
         },
         {
           "type": "STRING",
-          "value": "component"
+          "value": "func"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "param"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "result"
+          }
         },
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "param": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "param"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "id"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "valtype"
+        }
+      ]
+    },
+    "result": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "result"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "valtype"
+        }
+      ]
+    },
+    "limits": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "num"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "num"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "memtype": {
+      "type": "SYMBOL",
+      "name": "limits"
+    },
+    "tabletype": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "limits"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
         }
       ]
     },
@@ -86,8 +244,45 @@
           "value": "//"
         },
         {
-          "type": "PATTERN",
-          "value": ".*"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": ".*"
+          }
+        }
+      ]
+    },
+    "num": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[\\d]+(_?\\d+)*"
+      }
+    },
+    "hexnum": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[\\dA-Fa-f]+(_?[\\dA-Fa-f]+)*"
+      }
+    },
+    "idchar": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[\\dA-Za-z!#$%&'*+-./:<=>?@\\\\^_'|~]+"
+      }
+    },
+    "id": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "idchar"
         }
       ]
     }
